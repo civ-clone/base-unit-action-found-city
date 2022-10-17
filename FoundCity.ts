@@ -2,7 +2,6 @@ import {
   CityNameRegistry,
   instance as cityNameRegistryInstance,
 } from '@civ-clone/core-civilization/CityNameRegistry';
-import { Moved, IMovedRegistry } from '@civ-clone/core-unit/Rules/Moved';
 import {
   RuleRegistry,
   instance as ruleRegistryInstance,
@@ -10,6 +9,7 @@ import {
 import Action from '@civ-clone/core-unit/Action';
 import City from '@civ-clone/core-city/City';
 import Civilization from '@civ-clone/core-civilization/Civilization';
+import Moved from '@civ-clone/core-unit/Rules/Moved';
 import Tile from '@civ-clone/core-world/Tile';
 import Unit from '@civ-clone/core-unit/Unit';
 
@@ -34,12 +34,13 @@ export class FoundCity extends Action {
       this.unit().tile(),
       this.#cityNameRegistry.takeCapitalByCivilization(
         this.unit().player().civilization().constructor as typeof Civilization
-      )
+      ),
+      this.ruleRegistry()
     );
 
     this.unit().destroy();
 
-    (this.ruleRegistry() as IMovedRegistry).process(Moved, this.unit(), this);
+    this.ruleRegistry().process(Moved, this.unit(), this);
   }
 }
 
