@@ -1,4 +1,3 @@
 # base-unit-action-found-city
 
-This is a template repo.
-
+This package provides the `FoundCity` `Action` for `Unit`s.
