@@ -10,27 +10,30 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
     return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 };
-var _FoundCity_cityNameRegistry;
+var _FoundCity_cityNameRegistry, _FoundCity_workedTileRegistry;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FoundCity = void 0;
 const CityNameRegistry_1 = require("@civ-clone/core-civilization/CityNameRegistry");
 const RuleRegistry_1 = require("@civ-clone/core-rule/RuleRegistry");
+const WorkedTileRegistry_1 = require("@civ-clone/core-city/WorkedTileRegistry");
 const Action_1 = require("@civ-clone/core-unit/Action");
 const City_1 = require("@civ-clone/core-city/City");
 const Moved_1 = require("@civ-clone/core-unit/Rules/Moved");
 class FoundCity extends Action_1.default {
-    constructor(from, to, unit, cityNameRegistry = CityNameRegistry_1.instance, ruleRegistry = RuleRegistry_1.instance) {
+    constructor(from, to, unit, cityNameRegistry = CityNameRegistry_1.instance, ruleRegistry = RuleRegistry_1.instance, workedTileRegistry = WorkedTileRegistry_1.instance) {
         super(from, to, unit, ruleRegistry);
         _FoundCity_cityNameRegistry.set(this, void 0);
+        _FoundCity_workedTileRegistry.set(this, void 0);
         __classPrivateFieldSet(this, _FoundCity_cityNameRegistry, cityNameRegistry, "f");
+        __classPrivateFieldSet(this, _FoundCity_workedTileRegistry, workedTileRegistry, "f");
     }
     perform() {
-        new City_1.default(this.unit().player(), this.unit().tile(), __classPrivateFieldGet(this, _FoundCity_cityNameRegistry, "f").takeCapitalByCivilization(this.unit().player().civilization().constructor), this.ruleRegistry());
+        new City_1.default(this.unit().player(), this.unit().tile(), __classPrivateFieldGet(this, _FoundCity_cityNameRegistry, "f").takeCapitalByCivilization(this.unit().player().civilization().constructor), this.ruleRegistry(), __classPrivateFieldGet(this, _FoundCity_workedTileRegistry, "f"));
         this.unit().destroy();
         this.ruleRegistry().process(Moved_1.default, this.unit(), this);
     }
 }
 exports.FoundCity = FoundCity;
-_FoundCity_cityNameRegistry = new WeakMap();
+_FoundCity_cityNameRegistry = new WeakMap(), _FoundCity_workedTileRegistry = new WeakMap();
 exports.default = FoundCity;
 //# sourceMappingURL=FoundCity.js.map
